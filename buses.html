@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bus Buddy - Bus Info</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f3f4f6; /* Tailwind gray-100 */
+    }
+    .left-sidebar {
+      width: 16rem; /* 64 */
+      background-color: #1e40af; /* Tailwind blue-900 */
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .left-sidebar nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+    .left-sidebar nav ul li {
+      margin-bottom: 1rem;
+    }
+    .left-sidebar nav ul li a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      transition: background-color 0.3s ease;
+    }
+    .left-sidebar nav ul li a.active,
+    .left-sidebar nav ul li a:hover {
+      background-color: #2563eb; /* Tailwind blue-700 */
+    }
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .top-nav {
+      background-color: #1e40af;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 1.125rem;
+      border-radius: 0 0 0.375rem 0.375rem;
+      margin-bottom: 1rem;
+    }
+    .top-nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 600;
+    }
+    .top-nav a:hover {
+      text-decoration: underline;
+    }
+    .bus-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border: 1px solid #d1d5db; /* Tailwind gray-300 */
+      border-radius: 0.375rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .bus-table th,
+    .bus-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e5e7eb; /* Tailwind gray-200 */
+      text-align: left;
+    }
+    .bus-table th {
+      background-color: #e0e7ff; /* Tailwind indigo-100 */
+      font-weight: 700;
+      border-bottom: 2px solid #2563eb; /* Tailwind blue-700 */
+    }
+    .bus-table tr:last-child td {
+      border-bottom: none;
+    }
+    .bus-form {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    .bus-form label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      color: #1e40af; /* Tailwind blue-900 */
+    }
+    .bus-form input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db; /* Tailwind gray-300 */
+      border-radius: 0.375rem;
+      transition: border-color 0.3s ease;
+    }
+    .bus-form input:focus {
+      outline: none;
+      border-color: #2563eb; /* Tailwind blue-700 */
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+    }
+    .form-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    .form-buttons button {
+      flex: 1;
+      padding: 0.75rem;
+      font-weight: 600;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form-buttons button[type="submit"] {
+      background-color: #1e40af; /* Tailwind blue-900 */
+      color: white;
+    }
+    .form-buttons button[type="submit"]:hover {
+      background-color: #2563eb; /* Tailwind blue-700 */
+    }
+    #cancel-btn {
+      background-color: #dc2626; /* Tailwind red-600 */
+      color: white;
+    }
+    #cancel-btn:hover {
+      background-color: #b91c1c; /* Tailwind red-700 */
+    }
+    .right-sidebar {
+      width: 16rem; /* 64 */
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .profile-section h2 {
+      font-weight: 700;
+      color: #1e40af; /* Tailwind blue-900 */
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .profile-section button {
+      width: 100%;
+      padding: 0.5rem 0;
+      margin-bottom: 0.75rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    #edit-profile-btn {
+      background-color: #1e40af; /* Tailwind blue-900 */
+      color: white;
+    }
+    #edit-profile-btn:hover {
+      background-color: #2563eb; /* Tailwind blue-700 */
+    }
+    #logout-btn {
+      background-color: #dc2626; /* Tailwind red-600 */
+      color: white;
+    }
+    #logout-btn:hover {
+      background-color: #b91c1c; /* Tailwind red-700 */
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="left-sidebar">
+      <nav>
+        <ul>
+          <li><a href="dashboard.html" class="tab-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="students.html" class="tab-link"><i class="fas fa-user-graduate"></i> Students</a></li>
+          <li><a href="buses.html" class="tab-link active"><i class="fas fa-bus"></i> Bus</a></li>
+          <li><a href="location.html" class="tab-link"><i class="fas fa-map-marker-alt"></i> Location</a></li>
+          <li><a href="trackers.html" class="tab-link"><i class="fas fa-route"></i> Trackers</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="main-content">
+      <div class="top-nav">
+        <div>Bus Buddy - Bus Info</div>
+        <div>
+          <a href="dashboard.html" title="Back to Dashboard"><i class="fas fa-home"></i> Dashboard</a>
+          <a href="students.html" title="Go to Students"><i class="fas fa-user-graduate"></i> Students</a>
+          <a href="location.html" title="Go to Location"><i class="fas fa-map-marker-alt"></i> Location</a>
+        </div>
+      </div>
+      <table class="bus-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Bus Number</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody id="bus-table-body">
+          <tr>
+            <td>Bus A</td>
+            <td>12345</td>
+            <td>Bus-01</td>
+            <td>Main Campus</td>
+          </tr>
+          <tr>
+            <td>Bus B</td>
+            <td>67890</td>
+            <td>Bus-02</td>
+            <td>North Campus</td>
+          </tr>
+        </tbody>
+      </table>
+      <form id="bus-form" class="bus-form">
+        <label for="bus-name">Name</label>
+        <input type="text" id="bus-name" name="bus-name" required />
+        <label for="bus-number">Number</label>
+        <input type="text" id="bus-number" name="bus-number" required />
+        <label for="bus-busnumber">Bus Number</label>
+        <input type="text" id="bus-busnumber" name="bus-busnumber" required />
+        <label for="bus-location">Location</label>
+        <input type="text" id="bus-location" name="bus-location" required />
+        <div class="form-buttons">
+          <button type="submit"><i class="fas fa-check"></i> Submit</button>
+          <button type="button" id="cancel-btn"><i class="fas fa-times"></i> Cancel</button>
+        </div>
+      </form>
+    </div>
+    <aside class="right-sidebar">
+      <section class="profile-section">
+        <h2><i class="fas fa-user-circle"></i> Profile</h2>
+        <button id="edit-profile-btn">Edit Profile</button>
+        <button id="logout-btn">Logout</button>
+      </section>
+    </aside>
+  </div>
+  <script>
+    const busForm = document.getElementById('bus-form');
+    const busTableBody = document.getElementById('bus-table-body');
+
+    busForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('bus-name').value.trim();
+      const number = document.getElementById('bus-number').value.trim();
+      const busNumber = document.getElementById('bus-busnumber').value.trim();
+      const location = document.getElementById('bus-location').value.trim();
+
+      if (name && number && busNumber && location) {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td>${name}</td>
+          <td>${number}</td>
+          <td>${busNumber}</td>
+          <td>${location}</td>
+        `;
+        busTableBody.appendChild(newRow);
+        busForm.reset();
+        alert('Bus information added successfully!');
+      } else {
+        alert('Please fill in all fields.');
+      }
+    });
+
+    document.getElementById('cancel-btn').addEventListener('click', function() {
+      busForm.reset();
+    });
+  </script>
+</body>

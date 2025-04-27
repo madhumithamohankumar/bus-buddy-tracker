@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bus Buddy - Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    aside a {
+      transition: background-color 0.3s ease;
+    }
+    aside a:hover {
+      background-color: #2563eb; /* Tailwind blue-700 */
+    }
+    .profile-section button {
+      transition: background-color 0.3s ease;
+    }
+    .profile-section button:hover {
+      filter: brightness(0.9);
+    }
+    #map {
+      height: 300px;
+      border-radius: 0.375rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .notifications {
+      background-color: rgb(96, 155, 195);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .notification-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgb(96, 155, 195);
+    }
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    .notification-icon {
+      font-size: 1.5rem;
+      color: #2563eb;
+    }
+    .alarm {
+      color: #dc2626;
+      font-weight: 700;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+    .tracking-module {
+      background-color: rgb(96, 155, 195);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+    .students-list {
+      border: 1px solid rgb(96, 155, 195); /* Tailwind gray-300 */
+      border-radius: 0.375rem;
+      background-color: rgb(96, 155, 195);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .student-row {
+      display: flex;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid rgb(96, 155, 195); /* Tailwind gray-200 */
+    }
+    .student-row.header {
+      font-weight: 700;
+      background-color: #e0e7ff; /* Tailwind indigo-100 */
+      border-bottom: 2px solid #2563eb; /* Tailwind blue-700 */
+    }
+    .student-cell {
+      flex: 1;
+      text-align: left;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex bg-gray-100">
+  <aside class="w-64 bg-blue-900 text-white flex flex-col p-6">
+    <nav class="flex flex-col space-y-4">
+      <a href="students.html" class="px-4 py-2 rounded hover:bg-blue-700 transition flex items-center gap-2">
+        <i class="fas fa-user-graduate"></i> Students
+      </a>
+      <a href="buses.html" class="px-4 py-2 rounded hover:bg-blue-700 transition flex items-center gap-2">
+        <i class="fas fa-bus"></i> Bus
+      </a>
+      <a href="location.html" class="px-4 py-2 rounded hover:bg-blue-700 transition flex items-center gap-2">
+        <i class="fas fa-map-marker-alt"></i> Location
+      </a>
+    </nav>
+  </aside>
+  <main class="flex-1 p-8 overflow-auto">
+    <h1 class="text-3xl font-semibold text-blue-900 mb-6">Welcome to Bus Buddy Dashboard</h1>
+    <p>Select a tab from the left sidebar to get started.</p>
+    <a href="trackers.html" class="tracker-module-link" title="Go to Trackers Module">
+      <i class="fas fa-route"></i> Go to Trackers Module
+    </a>
+  </main>
+  <aside class="w-64 bg-white shadow-lg p-6 flex flex-col justify-start">
+    <section class="profile-section">
+      <h2 class="text-xl font-semibold text-blue-900 mb-4 flex items-center gap-2">
+        <i class="fas fa-user-circle"></i> Profile
+      </h2>
+      <button id="edit-profile-btn" class="w-full py-2 mb-3 bg-blue-900 text-white rounded hover:bg-blue-800 transition flex items-center justify-center gap-2">
+        <i class="fas fa-edit"></i> Edit Profile
+      </button>
+      <button id="logout-btn" class="w-full py-2 bg-red-600 text-white rounded hover:bg-red-700 transition flex items-center justify-center gap-2">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </section>
+  </aside>
+</body>
+</html>
